@@ -148,7 +148,7 @@ namespace CS2_SimpleAdmin
 		}
 
 		[ConsoleCommand("css_strip")]
-		[RequiresPermissions("@css/slay")]
+		[RequiresPermissions("@css/cheats")]
 		[CommandHelper(minArgs: 1, usage: "<#userid or name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
 		public void OnStripCommand(CCSPlayerController? caller, CommandInfo command)
 		{
@@ -199,7 +199,7 @@ namespace CS2_SimpleAdmin
 		}
 
 		[ConsoleCommand("css_hp")]
-		[RequiresPermissions("@css/slay")]
+		[RequiresPermissions("@css/cheats")]
 		[CommandHelper(minArgs: 1, usage: "<#userid or name> <health>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
 		public void OnHpCommand(CCSPlayerController? caller, CommandInfo command)
 		{
@@ -253,7 +253,7 @@ namespace CS2_SimpleAdmin
 		}
 
 		[ConsoleCommand("css_speed")]
-		[RequiresPermissions("@css/slay")]
+		[RequiresPermissions("@css/cheats")]
 		[CommandHelper(minArgs: 1, usage: "<#userid or name> <speed>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
 		public void OnSpeedCommand(CCSPlayerController? caller, CommandInfo command)
 		{

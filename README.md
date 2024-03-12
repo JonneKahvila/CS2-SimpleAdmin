@@ -4,7 +4,7 @@
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y4THKXG)
 
 ### Description
-Manage your Counter-Strike 2 server by simple commands :) 
+Manage your Counter-Strike 2 server by simple commands :)
 
 ### Info
 ~~It's only plugin base~~, I don't have much time for more extensive development, so if you want to help, do it :)
@@ -34,14 +34,14 @@ Manage your Counter-Strike 2 server by simple commands :)
 - css_addsilence <steamid> [time in minutes/0 perm] [reason] - Silence player via steamid64 // @css/chat
 - css_unsilence <steamid or name> - Unsilence player // @css/chat
 - css_give <#userid or name> <weapon> - Give weapon to player // @css/cheats
-- css_strip <#userid or name> - Takes all of the player weapons // @css/slay
-- css_hp <#userid or name> [health] - Set player health // @css/slay
-- css_speed <#userid or name> [speed] - Set player speed // @css/slay
+- css_strip <#userid or name> - Takes all of the player weapons // @css/cheats
+- css_hp <#userid or name> [health] - Set player health // @css/cheats
+- css_speed <#userid or name> [speed] - Set player speed // @css/cheats
 - css_god <#userid or name> - Toggle godmode for player // @css/cheats
 - css_slay <#userid or name> - Kill player // @css/slay
 - css_slap <#userid or name> [damage] - Slap player // @css/slay
 - css_team <#userid or name> [<ct/tt/spec/swap>] [-k] - Change player team (swap - swap player team, -k - kill player) // @css/kick
-- css_vote <"Question?"> ["Answer1"] ["Answer2"] ... - Create vote // @css/generic
+- css_vote <"Question?"> ["Answer1"] ["Answer2"] ... - Create vote // @css/vote
 - css_map <mapname> - Change map // @css/changemap
 - css_wsmap <name or id> - Change workshop map // @css/changemap
 - css_asay <message> - Say message to all admins // @css/chat
@@ -50,8 +50,8 @@ Manage your Counter-Strike 2 server by simple commands :)
 - css_csay <message> - Say message as admin in center // @css/chat
 - css_hsay <message> - Say message as admin in hud // @css/chat
 - css_noclip <#userid or name> - Toggle noclip for player // @css/cheats
-- css_freeze <#userid or name> [duration] - Freeze player // @css/slay
-- css_unfreeze <#userid or name> - Unfreeze player // @css/slay
+- css_freeze <#userid or name> [duration] - Freeze player // @css/cheats
+- css_unfreeze <#userid or name> - Unfreeze player // @css/cheats
 - css_rename <#userid or name> <new name> - Rename player // @css/kick
 - css_respawn <#userid or name> - Respawn player // @css/cheats
 - css_cvar <cvar> <value> - Change cvar value // @css/cvar

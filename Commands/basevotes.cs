@@ -12,7 +12,7 @@ namespace CS2_SimpleAdmin
 	public partial class CS2_SimpleAdmin
 	{
 		[ConsoleCommand("css_vote")]
-		[RequiresPermissions("@css/generic")]
+		[RequiresPermissions("@css/vote")]
 		[CommandHelper(minArgs: 2, usage: "<question> [... options ...]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
 		public void OnVoteCommand(CCSPlayerController? caller, CommandInfo command)
 		{
