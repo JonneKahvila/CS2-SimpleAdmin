@@ -61,7 +61,7 @@ public partial class CS2_SimpleAdmin
             Helper.LogCommand(caller, command);
         }
     }
-    
+
     [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGodCommand(CCSPlayerController? caller, CommandInfo command)
@@ -116,7 +116,7 @@ public partial class CS2_SimpleAdmin
     }
 
     [CommandHelper(1, "<#userid or name> [duration]")]
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     public void OnFreezeCommand(CCSPlayerController? caller, CommandInfo command)
     {
         var callerName = caller == null ? _localizer?["sa_console"] ?? "Console" : caller.PlayerName;
@@ -134,9 +134,9 @@ public partial class CS2_SimpleAdmin
             }
         });
     }
-    
+
     [CommandHelper(1, "<#userid or name> [size]")]
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     public void OnResizeCommand(CCSPlayerController? caller, CommandInfo command)
     {
         var callerName = caller == null ? _localizer?["sa_console"] ?? "Console" : caller.PlayerName;
@@ -149,10 +149,10 @@ public partial class CS2_SimpleAdmin
         playersToTarget.ForEach(player =>
         {
             if (!caller!.CanTarget(player)) return;
-            
+
             var sceneNode = player.PlayerPawn.Value!.CBodyComponent?.SceneNode;
             if (sceneNode == null) return;
-            
+
             sceneNode.GetSkeletonInstance().Scale = size;
             player.PlayerPawn.Value.AcceptInput("SetScale", null, null, size.ToString(CultureInfo.InvariantCulture));
 
@@ -160,7 +160,7 @@ public partial class CS2_SimpleAdmin
             {
                 Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_CBodyComponent");
             });
-            
+
             var (activityMessageKey, adminActivityArgs) =
                 ("sa_admin_resize_message",
                     new object[] { "CALLER", player.PlayerName });
@@ -171,7 +171,7 @@ public partial class CS2_SimpleAdmin
                 Helper.ShowAdminActivity(activityMessageKey, callerName, false, adminActivityArgs);
             }
         });
-        
+
         Helper.LogCommand(caller, command);
     }
 
@@ -211,7 +211,7 @@ public partial class CS2_SimpleAdmin
     }
 
     [CommandHelper(1, "<#userid or name>")]
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     public void OnUnfreezeCommand(CCSPlayerController? caller, CommandInfo command)
     {
         var callerName = caller == null ? _localizer?["sa_console"] ?? "Console" : caller.PlayerName;

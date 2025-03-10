@@ -13,7 +13,7 @@ public partial class CS2_SimpleAdmin
 {
     internal static readonly Dictionary<int, float> SpeedPlayers = [];
     internal static readonly Dictionary<CCSPlayerController, float> GravityPlayers = [];
-    
+
     [RequiresPermissions("@css/slay")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnSlayCommand(CCSPlayerController? caller, CommandInfo command)
@@ -165,7 +165,7 @@ public partial class CS2_SimpleAdmin
         }
     }
 
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnStripCommand(CCSPlayerController? caller, CommandInfo command)
     {
@@ -216,7 +216,7 @@ public partial class CS2_SimpleAdmin
         }
     }
 
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name> <health>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnHpCommand(CCSPlayerController? caller, CommandInfo command)
     {
@@ -265,7 +265,7 @@ public partial class CS2_SimpleAdmin
         }
     }
 
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name> <speed>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnSpeedCommand(CCSPlayerController? caller, CommandInfo command)
     {
@@ -297,7 +297,7 @@ public partial class CS2_SimpleAdmin
 
         // Set player's speed
         player.SetSpeed(speed);
-        
+
         if (speed == 1f)
             SpeedPlayers.Remove(player.Slot);
         else
@@ -321,12 +321,12 @@ public partial class CS2_SimpleAdmin
         }
     }
 
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name> <gravity>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGravityCommand(CCSPlayerController? caller, CommandInfo command)
     {
         float.TryParse(command.GetArg(2), NumberStyles.Float, CultureInfo.InvariantCulture, out var gravity);
-        
+
         var targets = GetTarget(command);
         if (targets == null) return;
 
@@ -353,12 +353,12 @@ public partial class CS2_SimpleAdmin
 
         // Set player's gravity
         player.SetGravity(gravity);
-        
+
         if (gravity == 1f)
             GravityPlayers.Remove(player);
         else
             GravityPlayers[player] = gravity;
-        
+
         // Log the command
         if (command == null)
             Helper.LogCommand(caller, $"css_gravity {(string.IsNullOrEmpty(player.PlayerName) ? player.SteamID.ToString() : player.PlayerName)} {gravity}");
@@ -377,7 +377,7 @@ public partial class CS2_SimpleAdmin
         }
     }
 
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name> <money>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnMoneyCommand(CCSPlayerController? caller, CommandInfo command)
     {
@@ -429,7 +429,7 @@ public partial class CS2_SimpleAdmin
         }
     }
 
-    [RequiresPermissions("@css/slay")]
+    [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name> [damage]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnSlapCommand(CCSPlayerController? caller, CommandInfo command)
     {
@@ -463,7 +463,7 @@ public partial class CS2_SimpleAdmin
 
         // Set default caller name if not provided
         var callerName = caller != null ? caller.PlayerName : _localizer?["sa_console"] ?? "Console";
-        
+
         // Apply slap damage to the player
         player.Pawn.Value?.Slap(damage);
 
@@ -487,7 +487,7 @@ public partial class CS2_SimpleAdmin
         }
     }
 
-    [RequiresPermissions("@css/kick")]
+    [RequiresPermissions("@css/cheats")]
     [CommandHelper(minArgs: 2, usage: "<#userid or name> [<ct/tt/spec>] [-k]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnTeamCommand(CCSPlayerController? caller, CommandInfo command)
     {
@@ -584,7 +584,7 @@ public partial class CS2_SimpleAdmin
     }
 
     [CommandHelper(1, "<#userid or name> <new name>")]
-    [RequiresPermissions("@css/kick")]
+    [RequiresPermissions("@css/cheats")]
     public void OnRenameCommand(CCSPlayerController? caller, CommandInfo command)
     {
         // Set default caller name if not provided
@@ -613,7 +613,7 @@ public partial class CS2_SimpleAdmin
             // Check if the player is connected and can be targeted
             if (player.Connected != PlayerConnectedState.PlayerConnected || !caller!.CanTarget(player))
                 return;
-            
+
             // Determine message key and arguments for the rename notification
             var activityMessageKey = "sa_admin_rename_message";
             var adminActivityArgs = new object[] { "CALLER", player.PlayerName, newName };
@@ -622,14 +622,14 @@ public partial class CS2_SimpleAdmin
             if (caller != null && SilentPlayers.Contains(caller.Slot)) return;
 
             Helper.ShowAdminActivity(activityMessageKey, callerName, false, adminActivityArgs);
-            
+
             // Rename the player
             player.Rename(newName);
         });
     }
 
     [CommandHelper(1, "<#userid or name> <new name>")]
-    [RequiresPermissions("@css/ban")]
+    [RequiresPermissions("@css/rcon")]
     public void OnPrenameCommand(CCSPlayerController? caller, CommandInfo command)
     {
         // Set default caller name if not provided
@@ -654,7 +654,7 @@ public partial class CS2_SimpleAdmin
             // Check if the player is connected and can be targeted
             if (player.Connected != PlayerConnectedState.PlayerConnected || !caller!.CanTarget(player))
                 return;
-            
+
             // Determine message key and arguments for the rename notification
             var activityMessageKey = "sa_admin_rename_message";
             var adminActivityArgs = new object[] { "CALLER", player.PlayerName, newName };
@@ -664,7 +664,7 @@ public partial class CS2_SimpleAdmin
             {
                 Helper.ShowAdminActivity(activityMessageKey, callerName, false, adminActivityArgs);
             }
-            
+
             // Determine if the new name is valid and update the renamed players list
             if (!string.IsNullOrEmpty(newName))
             {
@@ -736,7 +736,7 @@ public partial class CS2_SimpleAdmin
     }
 
     [CommandHelper(1, "<#userid or name>")]
-    [RequiresPermissions("@css/kick")]
+    [RequiresPermissions("@css/cheats")]
     public void OnGotoCommand(CCSPlayerController? caller, CommandInfo command)
     {
         // Check if the caller is valid and has a live pawn
@@ -765,13 +765,13 @@ public partial class CS2_SimpleAdmin
 
             caller.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
             caller.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
-            
+
             Utilities.SetStateChanged(caller, "CCollisionProperty", "m_CollisionGroup");
             Utilities.SetStateChanged(caller, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
-            
+
             player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
             player.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
-            
+
             Utilities.SetStateChanged(player, "CCollisionProperty", "m_CollisionGroup");
             Utilities.SetStateChanged(player, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
 
@@ -780,16 +780,16 @@ public partial class CS2_SimpleAdmin
             {
                 if (!caller.IsValid || !caller.PawnIsAlive)
                     return;
-                
+
                 caller.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
                 caller.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
-            
+
                 Utilities.SetStateChanged(caller, "CCollisionProperty", "m_CollisionGroup");
                 Utilities.SetStateChanged(caller, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
-                
+
                 player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
                 player.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
-            
+
                 Utilities.SetStateChanged(player, "CCollisionProperty", "m_CollisionGroup");
                 Utilities.SetStateChanged(player, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
             });
@@ -807,7 +807,7 @@ public partial class CS2_SimpleAdmin
     }
 
     [CommandHelper(1, "<#userid or name>")]
-    [RequiresPermissions("@css/kick")]
+    [RequiresPermissions("@css/cheats")]
     public void OnBringCommand(CCSPlayerController? caller, CommandInfo command)
     {
         // Check if the caller is valid and has a live pawn
@@ -833,16 +833,16 @@ public partial class CS2_SimpleAdmin
             // Teleport the player to the caller and toggle noclip
             player.TeleportPlayer(caller);
             // caller.PlayerPawn.Value.ToggleNoclip();
-            
+
             caller.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
             caller.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
-            
+
             Utilities.SetStateChanged(caller, "CCollisionProperty", "m_CollisionGroup");
             Utilities.SetStateChanged(caller, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
-            
+
             player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
             player.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
-            
+
             Utilities.SetStateChanged(player, "CCollisionProperty", "m_CollisionGroup");
             Utilities.SetStateChanged(player, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
 
@@ -851,16 +851,16 @@ public partial class CS2_SimpleAdmin
             {
                 if (!player.IsValid || !player.PawnIsAlive)
                     return;
-                
+
                 caller.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
                 caller.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
-            
+
                 Utilities.SetStateChanged(caller, "CCollisionProperty", "m_CollisionGroup");
                 Utilities.SetStateChanged(caller, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
-                
+
                 player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
                 player.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_PLAYER;
-            
+
                 Utilities.SetStateChanged(player, "CCollisionProperty", "m_CollisionGroup");
                 Utilities.SetStateChanged(player, "VPhysicsCollisionAttribute_t", "m_nCollisionGroup");
             });
